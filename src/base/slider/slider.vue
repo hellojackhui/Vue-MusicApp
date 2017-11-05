@@ -107,6 +107,9 @@
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
       }
+    },
+    destoryed() {
+      clearTimeout(this.timer)
     }
   }
 </script>
