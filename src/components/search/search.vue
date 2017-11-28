@@ -39,16 +39,15 @@
   import {ERR_OK} from 'api/config'
   import Suggest from 'components/suggest/suggest'
   import Scroll from 'base/scroll/scroll'
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
   import SearchList from 'base/search-list/search-list'
-  import {playlistMixin} from 'common/js/mixin'
+  import {playlistMixin, searchMixin} from 'common/js/mixin'
   import Confirm from 'base/confirm/confirm'
   export default {
-    mixin: [playlistMixin],
+    mixins: [playlistMixin, searchMixin],
     data() {
       return {
-        hotKey: [],
-        query: ''
+        hotKey: []
       }
     },
     created() {
@@ -57,10 +56,7 @@
     computed: {
       shortcut() {
         return this.hotKey.concat(this.searchHistory)
-      },
-      ...mapGetters([
-        'searchHistory'
-      ])
+      }
     },
     methods: {
       handlePlaylist(playlist) {
@@ -77,18 +73,6 @@
           }
         })
       },
-      addQuery(query) {
-        this.$refs.searchBox.setQuery(query)
-      },
-      onQueryChange(query) {
-        this.query = query
-      },
-      blurInput() {
-        this.$refs.searchBox.blur()
-      },
-      saveSearch() {
-        this.saveSearchHistory(this.query)
-      },
       deleteOne(item) {
         this.deleteSearchHistory(item)
       },
@@ -96,8 +80,6 @@
         this.$refs.confirm.show()
       },
       ...mapActions([
-        'saveSearchHistory',
-        'deleteSearchHistory',
         'clearSearchHistory'
       ])
     },
